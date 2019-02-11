@@ -14,9 +14,17 @@ namespace flights_api.Controllers
     {
         // GET api/flights
         [HttpGet]
-        public ActionResult<IEnumerable<Flight>> Get()
-        {
-            return Program.Flights;
+        public ActionResult<IEnumerable<Flight>> Get(string from = null, string to = null){
+            var flights = Program.Flights.AsQueryable();
+
+            if(!string.IsNullOrEmpty(from)){
+                flights = flights.Where(f => f.From == from);
+            }
+            if(!string.IsNullOrEmpty(to)){
+                flights = flights.Where(f => f.To == to);
+            }
+
+            return flights.ToList();
         }
 
         // GET api/values/5
@@ -26,6 +34,7 @@ namespace flights_api.Controllers
             return Program.Flights.SingleOrDefault(f => f.FlightNumber == id);
         }
 
+        
         // POST api/flights
         [HttpPost]
         public void Post(Flight flight)
