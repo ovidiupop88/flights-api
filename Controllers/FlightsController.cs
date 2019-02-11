@@ -27,7 +27,7 @@ namespace flights_api.Controllers
             return flights.ToList();
         }
 
-        // GET api/values/5
+        // GET api/flights/WZ124
         [HttpGet("{id}")]
         public ActionResult<object> Get(string id)
         {
@@ -37,12 +37,16 @@ namespace flights_api.Controllers
         
         // POST api/flights
         [HttpPost]
-        public void Post(Flight flight)
+        public ActionResult Post(Flight flight)
         {
             var flights = Program.Flights;
-            if(!flights.Any(f => f.FlightNumber == flight.FlightNumber)){
-                flights.Add(flight);
+
+            if(flights.Any(f => f.FlightNumber == flight.FlightNumber)){
+                return Conflict();
             };
+
+            flights.Add(flight);
+            return CreatedAtAction("Get", flight);
         }
 
         // PUT api/flights/5
