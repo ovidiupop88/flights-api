@@ -9,7 +9,6 @@ namespace flights_api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [EnableCors("MyPolicy")]
     public class FlightsController : ControllerBase
     {
         // GET api/flights
